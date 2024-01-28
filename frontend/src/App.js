@@ -6,7 +6,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Detail from './components/detail.tsx';
+import Event from './components/event.tsx';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/detail" element={<Detail />} />
+            <Route path="/event" element={<Event />} />
           </Routes>
 
           {/* <a

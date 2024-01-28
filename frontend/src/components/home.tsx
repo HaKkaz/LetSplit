@@ -64,7 +64,7 @@ function Home() {
                     </Button>}
                 />
             </form>
-            {/* 顯示peopleName，並清空peopleName */}
+            {/* TO-DO: 用List呈現 */}
             {peopleNameList.map((person, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                     <div
@@ -82,7 +82,7 @@ function Home() {
             ))}
             <br />
             {/* 點擊建立後，進到detail頁面 */}
-            <Link to="/detail">
+            <Link to="/event">
                 <Button type="submit">建立</Button>
             </Link></>
 
