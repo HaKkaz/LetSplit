@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Home from './components/home.tsx';
 import {
@@ -7,6 +6,7 @@ import {
   Routes,
 } from "react-router-dom";
 import Event from './components/event.tsx';
+
 
 function App() {
   return (
