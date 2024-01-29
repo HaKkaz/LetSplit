@@ -31,13 +31,14 @@ import TapAndPlayRoundedIcon from '@mui/icons-material/TapAndPlayRounded';
 function Event() {
     const creationDateTime = new Date(); // Get the current date and time
 
-    const formattedDateTime = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: 'numeric',
-        minute: 'numeric',
-    }).format(creationDateTime);
+    // const formattedDateTime = new Intl.DateTimeFormat('en-US', {
+    //     year: 'numeric',
+    //     month: '2-digit',
+    //     day: '2-digit',
+    //     hour: 'numeric',
+    //     minute: 'numeric',
+    // }).format(creationDateTime);
+    const formattedDateTime = `${creationDateTime.getFullYear()}.${String(creationDateTime.getMonth() + 1).padStart(2, '0')}.${String(creationDateTime.getDate()).padStart(2, '0')} ${String(creationDateTime.getHours()).padStart(2, '0')}:${String(creationDateTime.getMinutes()).padStart(2, '0')}`;
     return (
         <>
             <h1>這是標題</h1>
@@ -108,18 +109,14 @@ function Event() {
                             <AccordionDetails>
                                 <Stack spacing={1.5}>
                                     <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-                                        <FormLabel>阿寶</FormLabel>
-                                        <Switch size="sm" />
+                                        <FormLabel>小豬 100 元</FormLabel>
                                     </FormControl>
-
                                     <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-                                        <FormLabel>綿悠悠</FormLabel>
-                                        <Switch size="sm" />
+                                        <FormLabel>綿悠悠 100 元</FormLabel>
                                     </FormControl>
-
                                     <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-                                        <FormLabel>皮皮雞</FormLabel>
-                                        <Switch size="sm" />
+                                        <FormLabel>皮皮雞 100 元</FormLabel>
+
                                     </FormControl>
                                 </Stack>
                             </AccordionDetails>
