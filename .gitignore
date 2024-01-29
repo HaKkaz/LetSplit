@@ -5,3 +5,5 @@ build/
 .vscode
 *.swp
 *.swo
+**/.venv
+**/.env
