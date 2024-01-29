@@ -7,3 +7,4 @@ build/
 *.swo
 **/.venv
 **/.env
+**/__pycache__
