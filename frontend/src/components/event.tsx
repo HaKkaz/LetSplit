@@ -11,13 +11,13 @@ function Event() {
         <div style={{ position: 'relative' }}>
             <h1 style={{ position: 'fixed', top: 40, left: 0, width: '100%', background: 'white' }}>這是標題</h1>
             <Tabs defaultValue={0} >
-                <TabList style={{ position: 'fixed', top: '25%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white' }}>
+                <TabList style={{ position: 'fixed', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white' }}>
                     <Tab> 收支明細 </Tab>
                     <Tab>結算總覽</Tab>
                 </TabList>
                 <TabPanel value={0}>
-                    <button style={{ position: 'fixed', top: '30%', left: '52%', width: '15%', background: 'white' }}>新增成員</button>
-                    <button style={{ position: 'fixed', top: '30%', right: '52%', width: '15%', background: 'white' }}>新增項目</button>
+                    <button style={{ position: 'fixed', top: '25%', left: '52%', width: '20%', background: 'white' }}>新增成員</button>
+                    <button style={{ position: 'fixed', top: '25%', right: '52%', width: '20%', background: 'white' }}>新增項目</button>
                     <br />
                     <br />
                     <ItemCard />

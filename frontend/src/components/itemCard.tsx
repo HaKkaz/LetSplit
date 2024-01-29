@@ -12,11 +12,18 @@ import AccordionDetails from '@mui/joy/AccordionDetails';
 import Stack from '@mui/joy/Stack';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
+import DialogActions from '@mui/joy/DialogActions';
+import Button from '@mui/joy/Button';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 function ItemCard() {
     const creationDateTime = new Date(); // Get the current date and time
     const formattedDateTime = `${creationDateTime.getFullYear()}.${String(creationDateTime.getMonth() + 1).padStart(2, '0')}.${String(creationDateTime.getDate()).padStart(2, '0')} ${String(creationDateTime.getHours()).padStart(2, '0')}:${String(creationDateTime.getMinutes()).padStart(2, '0')}`;
-
+    const [open, setOpen] = React.useState<boolean>(false);
     return (
         <Card
             variant="outlined"
@@ -41,9 +48,28 @@ function ItemCard() {
                     <Grid>
                         <MdDelete color="#7CBBAE"
                             fontSize="large"
-
-                            onClick={() => alert('You clicked the delete button!')}
+                            onClick={() => setOpen(true)}
                         />
+                        <Modal open={open} onClose={() => setOpen(false)}>
+                            <ModalDialog variant="outlined" role="alertdialog">
+                                <DialogTitle>
+                                    <WarningRoundedIcon />
+                                    Confirmation
+                                </DialogTitle>
+                                <Divider />
+                                <DialogContent>
+                                    確定刪除此項目?
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button variant="solid" color="danger" onClick={() => setOpen(false)}>
+                                        確定刪除
+                                    </Button>
+                                    <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>
+                                        取消
+                                    </Button>
+                                </DialogActions>
+                            </ModalDialog>
+                        </Modal>
                         <FaPen color="#7CBBAE" />
                     </Grid>
                 </Grid>
@@ -54,20 +80,8 @@ function ItemCard() {
                 </Grid>
             </Grid>
             <Divider inset="none" />
-            {/* <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                            <CardContent>
-                                <Typography level="title-md" marginRight={20}>
-                                    小豬支付 300 元
-                                </Typography>
-                            </CardContent>
-                        </Grid>
-                        <div className="bg-emerald-100 flex max-w-[277px] items-stretch justify-between gap-5 pl-6 pr-2.5 pt-4">
-                            <IoIosArrowDropdownCircle />
-                        </div> */}
-
             <Accordion>
                 <AccordionSummary>
-
                     <ListItemContent>
                         <Typography level="title-md">小豬支付 300 元</Typography>
                     </ListItemContent>
@@ -82,7 +96,6 @@ function ItemCard() {
                         </FormControl>
                         <FormControl orientation="horizontal" sx={{ gap: 1 }}>
                             <FormLabel>皮皮雞 100 元</FormLabel>
-
                         </FormControl>
                     </Stack>
                 </AccordionDetails>
