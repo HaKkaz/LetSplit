@@ -3,6 +3,8 @@ import Button from '@mui/joy/Button';
 import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { CssVarsProvider } from '@mui/joy/styles';
+import theme from './../Theme.ts';
 import { Link } from 'react-router-dom';
 
 
@@ -44,15 +46,17 @@ function Home() {
                 <br />
             </Stack>
             <form onSubmit={handleSubmit}>
+                <CssVarsProvider theme={theme}>
                 <Input
                     sx={{ '--Input-decoratorChildHeight': '38px' }}
                     placeholder="分母名稱"
                     required
                     value={peopleName}
                     onChange={(e) => setPeopleName(e.target.value)}
-                    endDecorator={<Button
+                    endDecorator={
+                    <Button
                         variant="solid"
-                        color="primary"
+                        color="secondary"
                         onClick={
                             () => {
                                 setPeopleNameList((prevList) => [...prevList, peopleName]);
@@ -63,6 +67,7 @@ function Home() {
                         新增
                     </Button>}
                 />
+                </CssVarsProvider>
             </form>
             {/* TO-DO: 用List呈現 */}
             {peopleNameList.map((person, index) => (
@@ -83,7 +88,9 @@ function Home() {
             <br />
             {/* 點擊建立後，進到detail頁面 */}
             <Link to="/event">
-                <Button type="submit">建立</Button>
+                <CssVarsProvider theme={theme}>
+                    <Button type="submit" color="secondary">建立</Button>
+                </CssVarsProvider>
             </Link></>
 
     );
