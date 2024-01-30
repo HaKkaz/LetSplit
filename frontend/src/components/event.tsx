@@ -4,27 +4,10 @@ import TabList from '@mui/joy/TabList';
 import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import ItemCard from './itemCard.tsx';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import Stack from '@mui/joy/Stack';
-import { useState } from 'react';
-import FormControl from '@mui/joy/FormControl';
-import Button from '@mui/joy/Button';
-import Input from '@mui/joy/Input';
-import { CssVarsProvider } from '@mui/joy/styles';
-import theme from '../Theme.ts';
-
-
-
+import AddPeopleModal from './ui/addPeopleModal.tsx';
+import AddItemModal from './ui/addItemModal.tsx';
 
 function Event() {
-    const [openModal, setOpenModal] = useState(false);
-
-    const handleOpenModal = () => {
-        setOpenModal(!openModal);
-    }
-
     return (
         <div style={{ position: 'relative' }}>
             <h1 style={{ position: 'fixed', top: 40, left: 0, width: '100%', background: 'white' }}>這是標題</h1>
@@ -34,34 +17,8 @@ function Event() {
                     <Tab> 結算總覽 </Tab>
                 </TabList>
                 <TabPanel value={0}>
-                    <button onClick={handleOpenModal} style={{ position: 'fixed', top: '25%', left: '52%', width: '20%', background: 'white' }}>新增成員</button>
-                    <Modal
-                        open={openModal}
-                        onClose={handleOpenModal}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <ModalDialog>
-                            <DialogTitle>新增成員</DialogTitle>
-                            <form
-                                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                                    event.preventDefault();
-                                    setOpenModal(false);
-                                }}
-                            >
-                                <Stack spacing={2}>
-                                    <FormControl>
-                                        <Input autoFocus required placeholder="輸入成員名稱" />
-                                    </FormControl>
-                                    <CssVarsProvider theme={theme}>
-                                        <Button type="submit" color="secondary">確認</Button>
-                                    </CssVarsProvider>
-
-                                </Stack>
-                            </form>
-                        </ModalDialog>
-                    </Modal>
-                    <button style={{ position: 'fixed', top: '25%', right: '52%', width: '20%', background: 'white' }}>新增項目</button>
+                    <AddPeopleModal />
+                    <AddItemModal />
                     <br />
                     <br />
                     <ItemCard />
