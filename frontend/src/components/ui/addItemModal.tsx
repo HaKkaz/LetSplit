@@ -14,12 +14,40 @@ import MenuItem from '@mui/joy/MenuItem';
 import MenuButton from '@mui/joy/MenuButton';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import FormLabel from '@mui/joy/FormLabel';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
+interface CustomProps {
+    onChange: (event: { target: { name: string; value: string } }) => void;
+    name: string;
+}
+const NumericFormatAdapter = React.forwardRef<NumericFormatProps, CustomProps>(
+    function NumericFormatAdapter(props, ref) {
+        const { onChange, ...other } = props;
 
+        return (
+            <NumericFormat
+                {...other}
+                getInputRef={ref}
+                onValueChange={(values) => {
+                    onChange({
+                        target: {
+                            name: props.name,
+                            value: values.value,
+                        },
+                    });
+                }}
+                thousandSeparator
+                valueIsNumericString
+
+            />
+        );
+    },
+);
 function AddItemModal() {
     const [openModal, setOpenModal] = React.useState(false);
     const handleOpenModal = () => {
         setOpenModal(!openModal);
     }
+    const [value, setValue] = React.useState('');
     const peopleName = ['小寶', '皮皮雞', '羊悠悠'];
     const [peopleList, setPeopleList] = React.useState(peopleName[0]);
     return (
@@ -46,7 +74,16 @@ function AddItemModal() {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>金額</FormLabel>
-                                <Input autoFocus required placeholder="輸入金額" />
+                                <Input
+                                    startDecorator={'$'}
+                                    value={value}
+                                    onChange={(event) => setValue(event.target.value)}
+                                    slotProps={{
+                                        input: {
+                                            component: NumericFormatAdapter,
+                                        },
+                                    }}
+                                    autoFocus required placeholder="輸入金額" />
                             </FormControl>
                             <FormControl>
                                 <FormLabel>請選擇支付者</FormLabel>
