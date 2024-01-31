@@ -23,7 +23,6 @@ function Event() {
                     <br />
                     <ItemCard />
                 </TabPanel>
-
                 <TabPanel value={1}>
                     <b>Second</b> tab panel
                 </TabPanel>

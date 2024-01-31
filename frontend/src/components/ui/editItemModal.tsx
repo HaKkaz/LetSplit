@@ -1,25 +1,27 @@
+import { FaPen } from "react-icons/fa6";
 import React from 'react';
-import Stack from '@mui/joy/Stack';
-import FormControl from '@mui/joy/FormControl';
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
+import Button from '@mui/joy/Button';
 import { CssVarsProvider } from '@mui/joy/styles';
 import theme from './../../Theme.ts';
+import Stack from '@mui/joy/Stack';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
 import Dropdown from '@mui/joy/Dropdown';
 import Menu from '@mui/joy/Menu';
 import MenuItem from '@mui/joy/MenuItem';
 import MenuButton from '@mui/joy/MenuButton';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import FormLabel from '@mui/joy/FormLabel';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 import { styled } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Switch from '@mui/joy/Switch';
+
 interface CustomProps {
     onChange: (event: { target: { name: string; value: string } }) => void;
     name: string;
@@ -57,7 +59,8 @@ const Item = styled(Sheet)(({ theme }) => ({
     borderRadius: 4,
     color: theme.vars.palette.text.secondary,
 }));
-function AddItemModal() {
+
+function EditItemModal() {
     const [openModal, setOpenModal] = React.useState(false);
     const handleOpenModal = () => {
         setOpenModal(!openModal);
@@ -68,9 +71,12 @@ function AddItemModal() {
     const [peopleList, setPeopleList] = React.useState(peopleName[0]);
     const [equallySelected, setEquallySelected] = React.useState(false);
     const [splitedValue, setSplitedValue] = React.useState('');
+
     return (
-        <>
-            <button onClick={handleOpenModal} style={{ position: 'fixed', top: '25%', right: '52%', width: '20%', background: 'white' }}>新增項目</button>
+        <div>
+            <FaPen color="#7CBBAE"
+                fontSize="large"
+                onClick={handleOpenModal} />
             <Modal
                 open={openModal}
                 onClose={handleOpenModal}
@@ -78,7 +84,7 @@ function AddItemModal() {
                 aria-describedby="modal-modal-description"
             >
                 <ModalDialog>
-                    <DialogTitle>新增項目</DialogTitle>
+                    <DialogTitle>編輯項目</DialogTitle>
                     <form
                         onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
                             event.preventDefault();
@@ -180,7 +186,7 @@ function AddItemModal() {
                     </form>
                 </ModalDialog>
             </Modal>
-        </>
-    )
+        </div>
+    );
 }
-export default AddItemModal;
+export default EditItemModal;

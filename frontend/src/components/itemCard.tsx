@@ -19,6 +19,7 @@ import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
 import Button from '@mui/joy/Button';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import EditItemModal from './ui/editItemModal.tsx';
 
 function ItemCard() {
     const creationDateTime = new Date(); // Get the current date and time
@@ -39,11 +40,9 @@ function ItemCard() {
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                 <Grid xs={12} sm container>
                     <Grid container direction="column" spacing={2}>
-                        <Grid>
-                            <Typography level="title-lg" gutterBottom component="div">
-                                臭豆腐
-                            </Typography>
-                        </Grid>
+                        <Typography level="title-lg" gutterBottom component="div">
+                            臭豆腐
+                        </Typography>
                     </Grid>
                     <Grid>
                         <MdDelete color="#7CBBAE"
@@ -70,7 +69,7 @@ function ItemCard() {
                                 </DialogActions>
                             </ModalDialog>
                         </Modal>
-                        <FaPen color="#7CBBAE" />
+                        <EditItemModal />
                     </Grid>
                 </Grid>
                 <Grid>
