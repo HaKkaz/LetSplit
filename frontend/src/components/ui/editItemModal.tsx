@@ -75,7 +75,7 @@ function EditItemModal() {
     return (
         <div>
             <FaPen color="#7CBBAE"
-                fontSize="large"
+                fontSize="medium"
                 onClick={handleOpenModal} />
             <Modal
                 open={openModal}
