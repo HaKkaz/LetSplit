@@ -15,6 +15,11 @@ import MenuButton from '@mui/joy/MenuButton';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import FormLabel from '@mui/joy/FormLabel';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import { styled } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
+import Box from '@mui/joy/Box';
+import Typography from '@mui/joy/Typography';
+import Switch from '@mui/joy/Switch';
 interface CustomProps {
     onChange: (event: { target: { name: string; value: string } }) => void;
     name: string;
@@ -42,6 +47,16 @@ const NumericFormatAdapter = React.forwardRef<NumericFormatProps, CustomProps>(
         );
     },
 );
+
+const Item = styled(Sheet)(({ theme }) => ({
+    backgroundColor:
+        theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
+    ...theme.typography['body-sm'],
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    borderRadius: 4,
+    color: theme.vars.palette.text.secondary,
+}));
 function AddItemModal() {
     const [openModal, setOpenModal] = React.useState(false);
     const handleOpenModal = () => {
@@ -49,7 +64,10 @@ function AddItemModal() {
     }
     const [value, setValue] = React.useState('');
     const peopleName = ['小寶', '皮皮雞', '羊悠悠'];
+    const [payerList, setPayerList] = React.useState(peopleName[0]);
     const [peopleList, setPeopleList] = React.useState(peopleName[0]);
+    const [equallySelected, setEquallySelected] = React.useState(false);
+    const [splitedValue, setSplitedValue] = React.useState('');
     return (
         <>
             <button onClick={handleOpenModal} style={{ position: 'fixed', top: '25%', right: '52%', width: '20%', background: 'white' }}>新增項目</button>
@@ -88,15 +106,15 @@ function AddItemModal() {
                             <FormControl>
                                 <FormLabel>請選擇支付者</FormLabel>
                                 <Dropdown>
-                                    <MenuButton endDecorator={<ArrowDropDown />}>{peopleList}</MenuButton>
+                                    <MenuButton endDecorator={<ArrowDropDown />}>{payerList}</MenuButton>
                                     <Menu sx={{ zIndex: 1300, minWidth: 160, '--ListItemDecorator-size': '24px' }}>
                                         {peopleName.map((item: string) => (
                                             <MenuItem
                                                 key={item}
                                                 role="menuitemradio"
-                                                aria-checked={item === peopleList ? 'true' : 'false'}
+                                                aria-checked={item === payerList ? 'true' : 'false'}
                                                 onClick={() => {
-                                                    setPeopleList(item);
+                                                    setPayerList(item);
                                                 }}
                                             >
                                                 {item}
@@ -107,8 +125,54 @@ function AddItemModal() {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>請選擇分母</FormLabel>
-                                <Input autoFocus required placeholder="輸入金額" />
+                                <Typography component="label" endDecorator={<Switch sx={{ ml: 1 }} defaultChecked onChange={() => setEquallySelected(!equallySelected)} />}>
+                                    均攤
+                                </Typography>
                             </FormControl>
+                            {equallySelected ? null : (
+                                <FormControl>
+                                    <Box
+                                        sx={{
+                                            display: 'grid',
+                                            gridAutoColumns: '1fr',
+                                            gap: 1,
+                                        }}
+                                    >
+                                        <Item sx={{ gridRow: '1', gridColumn: 'span 2' }}>
+                                            <Dropdown>
+                                                <MenuButton endDecorator={<ArrowDropDown />}>{peopleList}</MenuButton>
+                                                <Menu sx={{ zIndex: 1300, minWidth: 180, '--ListItemDecorator-size': '24px' }}>
+                                                    {peopleName.map((item: string) => (
+                                                        <MenuItem
+                                                            key={item}
+                                                            role="menuitemradio"
+                                                            aria-checked={item === peopleList ? 'true' : 'false'}
+                                                            onClick={() => {
+                                                                setPeopleList(item);
+                                                            }}
+                                                        >
+                                                            {item}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Menu>
+                                            </Dropdown>
+                                        </Item>
+                                        <Item sx={{ gridRow: '1', gridColumn: '3/5' }}>
+                                            <Input
+                                                startDecorator={'$'}
+                                                value={splitedValue}
+                                                onChange={(event) => setSplitedValue(event.target.value)}
+                                                slotProps={{
+                                                    input: {
+                                                        component: NumericFormatAdapter,
+                                                    },
+                                                }}
+                                                autoFocus required placeholder="輸入金額" />
+                                        </Item>
+                                    </Box>
+                                </FormControl>
+                            )}
+
                             <CssVarsProvider theme={theme}>
                                 <Button type="submit" color="secondary">確認</Button>
                             </CssVarsProvider>
