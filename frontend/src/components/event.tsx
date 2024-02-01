@@ -6,6 +6,7 @@ import TabPanel from '@mui/joy/TabPanel';
 import ItemCard from './itemCard.tsx';
 import AddPeopleModal from './ui/addPeopleModal.tsx';
 import AddItemModal from './ui/addItemModal.tsx';
+import PieChartView from './ui/pieChartView.tsx';
 
 function Event() {
     return (
@@ -24,13 +25,12 @@ function Event() {
                     <ItemCard />
                 </TabPanel>
                 <TabPanel value={1}>
-                    <b>Second</b> tab panel
+                    每個人付了多少錢
+                    <PieChartView />
                 </TabPanel>
             </Tabs>
-
         </div>
-
-
     );
-};
+}
+
 export default Event;
