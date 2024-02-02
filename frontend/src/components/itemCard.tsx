@@ -28,6 +28,7 @@ function ItemCard() {
             { payer: '吼吼龍', amount: 50 },
             { payer: '綿悠悠', amount: 100 },
             { payer: '皮皮小雞', amount: 100 },
+            { payer: '小熊', amount: 0 },
         ],
     });
 
@@ -79,11 +80,13 @@ function ItemCard() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Stack spacing={1.5} marginTop={2}>
-                        {itemData.itemDetails.map((itemDetail, index) => (
-                            <FormControl key={index}>
-                                <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
-                            </FormControl>
-                        ))}
+                        {itemData.itemDetails
+                            .filter(itemDetail => itemDetail.amount !== 0)
+                            .map((itemDetail, index) => (
+                                <FormControl key={index}>
+                                    <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
+                                </FormControl>
+                            ))}
                     </Stack>
                 </AccordionDetails>
             </Accordion>

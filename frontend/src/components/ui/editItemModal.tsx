@@ -165,7 +165,9 @@ function EditItemModal(props) {
                                         sx={{
                                             display: 'grid',
                                             gridAutoColumns: '1fr',
-                                            gap: 1,
+                                            gap: 2,
+                                            marginLeft: -1,
+                                            marginRight: -1,
                                         }}
                                     >
                                         <Item sx={{ gridRow: '1', gridColumn: 'span 2' }}>
@@ -197,9 +199,52 @@ function EditItemModal(props) {
                                                         component: NumericFormatAdapter,
                                                     },
                                                 }}
-                                                autoFocus required placeholder="輸入金額" />
+                                                endDecorator={
+                                                    <Button
+                                                        variant="solid"
+                                                        type="submit"
+                                                        sx={{ borderTopLeftRadius: 2, borderBottomLeftRadius: 2, width: '10px' }}
+                                                        onClick={() => {
+                                                            // edit the amount of the selected payer or add a new payer
+                                                            const index = formData.editedItemDetails.findIndex(
+                                                                (itemDetail) => itemDetail.payer === peopleList
+                                                            );
+                                                            if (index === -1) {
+                                                                setFormData({
+                                                                    ...formData,
+                                                                    editedItemDetails: [
+                                                                        ...formData.editedItemDetails,
+                                                                        {
+                                                                            payer: peopleList,
+                                                                            amount: splitedValue,
+                                                                        },
+                                                                    ],
+                                                                });
+                                                            } else {
+                                                                const newDetails = formData.editedItemDetails;
+                                                                newDetails[index].amount = splitedValue;
+                                                                setFormData({
+                                                                    ...formData,
+                                                                    editedItemDetails: newDetails,
+                                                                });
+                                                            }
+                                                        }}
+                                                    >
+                                                        V
+                                                    </Button>
+                                                }
+                                                autoFocus required />
                                         </Item>
                                     </Box>
+                                    <Stack spacing={0.5} marginTop={1} marginLeft={2}>
+                                        {formData.editedItemDetails
+                                            .filter((itemDetail) => itemDetail.amount !== 0)
+                                            .map((itemDetail, index) => (
+                                                <FormControl key={index}>
+                                                    <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
+                                                </FormControl>
+                                            ))}
+                                    </Stack>
                                 </FormControl>
                             )}
                             <CssVarsProvider theme={theme}>
