@@ -20,8 +20,6 @@ function Event() {
                 <TabPanel value={0}>
                     <AddPeopleModal />
                     <AddItemModal />
-                    <br />
-                    <br />
                     <ItemCard />
                 </TabPanel>
                 <TabPanel value={1}>

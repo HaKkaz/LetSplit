@@ -36,6 +36,7 @@ function ItemCard() {
                 // to make the demo resizable
                 overflow: 'auto',
                 resize: 'horizontal',
+                marginTop: -15,
             }}
         >
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
@@ -70,7 +71,7 @@ function ItemCard() {
                         </ModalDialog>
                     </Modal>
                 </Box>
-                <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8 }}>
+                <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8, marginRight: 1 }}>
                     <EditItemModal />
                 </Box>
             </Grid>
