@@ -60,15 +60,39 @@ const Item = styled(Sheet)(({ theme }) => ({
     color: theme.vars.palette.text.secondary,
 }));
 
-function EditItemModal() {
+function EditItemModal(props) {
+    const { itemName, itemAmount, payerName, itemDetails, onEdit } = props;
+    const [formData, setFormData] = React.useState({
+        editedItemName: itemName,
+        editedItemAmount: itemAmount,
+        editedPayerName: payerName,
+        editedItemDetails: itemDetails,
+    });
+
+    const peopleNameList = formData.editedItemDetails.map((item) => item.payer);
+
+    const handleInputChange = (fieldName, value) => {
+        setFormData({
+            ...formData,
+            [fieldName]: value,
+        });
+    };
+    const handleEdit = () => {
+        // Call the onEdit function with the edited data
+        onEdit({
+            itemName: formData.editedItemName,
+            itemAmount: formData.editedItemAmount,
+            payerName: formData.editedPayerName,
+            itemDetails: formData.editedItemDetails,
+        });
+    };
     const [openModal, setOpenModal] = React.useState(false);
     const handleOpenModal = () => {
         setOpenModal(!openModal);
     }
-    const [value, setValue] = React.useState('');
-    const peopleName = ['小寶', '皮皮雞', '羊悠悠'];
-    const [payerList, setPayerList] = React.useState(peopleName[0]);
-    const [peopleList, setPeopleList] = React.useState(peopleName[0]);
+
+    const [payerList, setPayerList] = React.useState(peopleNameList[0]);
+    const [peopleList, setPeopleList] = React.useState(peopleNameList[0]);
     const [equallySelected, setEquallySelected] = React.useState(false);
     const [splitedValue, setSplitedValue] = React.useState('');
 
@@ -94,14 +118,14 @@ function EditItemModal() {
                         <Stack spacing={2}>
                             <FormControl>
                                 <FormLabel>項目名稱</FormLabel>
-                                <Input autoFocus required placeholder="輸入項目名稱" />
+                                <Input autoFocus required placeholder="輸入項目名稱" value={formData.editedItemName} onChange={(e) => handleInputChange("editedItemName", e.target.value)} />
                             </FormControl>
                             <FormControl>
                                 <FormLabel>金額</FormLabel>
                                 <Input
                                     startDecorator={'$'}
-                                    value={value}
-                                    onChange={(event) => setValue(event.target.value)}
+                                    value={formData.editedItemAmount}
+                                    onChange={(e) => handleInputChange("editedItemAmount", e.target.value)}
                                     slotProps={{
                                         input: {
                                             component: NumericFormatAdapter,
@@ -110,11 +134,11 @@ function EditItemModal() {
                                     autoFocus required placeholder="輸入金額" />
                             </FormControl>
                             <FormControl>
-                                <FormLabel>請選擇支付者</FormLabel>
+                                <FormLabel>支付者</FormLabel>
                                 <Dropdown>
-                                    <MenuButton endDecorator={<ArrowDropDown />}>{payerList}</MenuButton>
+                                    <MenuButton endDecorator={<ArrowDropDown />}>{formData.editedPayerName}</MenuButton>
                                     <Menu sx={{ zIndex: 1300, minWidth: 160, '--ListItemDecorator-size': '24px' }}>
-                                        {peopleName.map((item: string) => (
+                                        {peopleNameList.map((item: string) => (
                                             <MenuItem
                                                 key={item}
                                                 role="menuitemradio"
@@ -148,7 +172,7 @@ function EditItemModal() {
                                             <Dropdown>
                                                 <MenuButton endDecorator={<ArrowDropDown />}>{peopleList}</MenuButton>
                                                 <Menu sx={{ zIndex: 1300, minWidth: 180, '--ListItemDecorator-size': '24px' }}>
-                                                    {peopleName.map((item: string) => (
+                                                    {peopleNameList.map((item: string) => (
                                                         <MenuItem
                                                             key={item}
                                                             role="menuitemradio"
@@ -178,9 +202,8 @@ function EditItemModal() {
                                     </Box>
                                 </FormControl>
                             )}
-
                             <CssVarsProvider theme={theme}>
-                                <Button type="submit" color="secondary">確認</Button>
+                                <Button onClick={handleEdit} type="submit" color="secondary">確認</Button>
                             </CssVarsProvider>
                         </Stack>
                     </form>

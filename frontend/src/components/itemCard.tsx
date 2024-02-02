@@ -3,7 +3,6 @@ import Card from '@mui/joy/Card';
 import Typography from '@mui/joy/Typography';
 import Divider from '@mui/joy/Divider';
 import Grid from '@mui/joy/Grid';
-import { MdDelete } from "react-icons/md";
 import ListItemContent from '@mui/joy/ListItemContent';
 import Accordion from '@mui/joy/Accordion';
 import AccordionSummary from '@mui/joy/AccordionSummary';
@@ -11,21 +10,31 @@ import AccordionDetails from '@mui/joy/AccordionDetails';
 import Stack from '@mui/joy/Stack';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import Button from '@mui/joy/Button';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import EditItemModal from './ui/editItemModal.tsx';
 import Box from '@mui/joy/Box';
+import DeleteItemModal from './ui/deleteItemModal.tsx';
 
 
 function ItemCard() {
     const creationDateTime = new Date(); // Get the current date and time
     const formattedDateTime = `${creationDateTime.getFullYear()}.${String(creationDateTime.getMonth() + 1).padStart(2, '0')}.${String(creationDateTime.getDate()).padStart(2, '0')} ${String(creationDateTime.getHours()).padStart(2, '0')}:${String(creationDateTime.getMinutes()).padStart(2, '0')}`;
-    const [open, setOpen] = React.useState<boolean>(false);
+    const [itemData, setItemData] = React.useState({
+        itemName: "臭豆腐",
+        itemAmount: 300,
+        payerName: "皮皮小雞",
+        // 應該是所有人都要在這裡面，如果>0，才顯示
+        itemDetails: [
+            { payer: '小豬', amount: 50 },
+            { payer: '吼吼龍', amount: 50 },
+            { payer: '綿悠悠', amount: 100 },
+            { payer: '皮皮小雞', amount: 100 },
+        ],
+    });
+
+    const handleEditData = (editedData) => {
+        setItemData(editedData);
+    };
+
     return (
         <Card
             variant="outlined"
@@ -42,37 +51,20 @@ function ItemCard() {
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                 <Box sx={{ flexGrow: 1, marginTop: 1 }}>
                     <Typography level="title-lg" sx={{ marginTop: 1, marginLeft: 1 }} gutterBottom component="div">
-                        臭豆腐
+                        {itemData.itemName}
                     </Typography>
                 </Box>
                 <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 3 }}>
-                    <MdDelete color="#7CBBAE"
-                        fontSize="large"
-                        onClick={() => setOpen(true)}
-                    />
-                    <Modal open={open} onClose={() => setOpen(false)}>
-                        <ModalDialog variant="outlined" role="alertdialog">
-                            <DialogTitle>
-                                <WarningRoundedIcon />
-                                Confirmation
-                            </DialogTitle>
-                            <Divider />
-                            <DialogContent>
-                                確定刪除此項目?
-                            </DialogContent>
-                            <DialogActions>
-                                <Button variant="solid" color="danger" onClick={() => setOpen(false)}>
-                                    確定刪除
-                                </Button>
-                                <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>
-                                    取消
-                                </Button>
-                            </DialogActions>
-                        </ModalDialog>
-                    </Modal>
+                    <DeleteItemModal />
                 </Box>
                 <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8, marginRight: 1 }}>
-                    <EditItemModal />
+                    <EditItemModal
+                        itemName={itemData.itemName}
+                        itemAmount={itemData.itemAmount}
+                        payerName={itemData.payerName}
+                        itemDetails={itemData.itemDetails}
+                        onEdit={handleEditData}
+                    />
                 </Box>
             </Grid>
             <Typography level="body-sm" sx={{ marginLeft: -8 }}>
@@ -82,20 +74,16 @@ function ItemCard() {
             <Accordion>
                 <AccordionSummary>
                     <ListItemContent>
-                        <Typography level="title-md">小豬支付 300 元</Typography>
+                        <Typography level="title-md">{itemData.payerName}支付 {itemData.itemAmount} 元</Typography>
                     </ListItemContent>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Stack spacing={1.5}>
-                        <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-                            <FormLabel>小豬 100 元</FormLabel>
-                        </FormControl>
-                        <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-                            <FormLabel>綿悠悠 100 元</FormLabel>
-                        </FormControl>
-                        <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-                            <FormLabel>皮皮雞 100 元</FormLabel>
-                        </FormControl>
+                    <Stack spacing={1.5} marginTop={2}>
+                        {itemData.itemDetails.map((itemDetail, index) => (
+                            <FormControl key={index}>
+                                <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
+                            </FormControl>
+                        ))}
                     </Stack>
                 </AccordionDetails>
             </Accordion>
