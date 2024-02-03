@@ -61,16 +61,16 @@ const Item = styled(Sheet)(({ theme }) => ({
 }));
 
 function EditItemModal(props) {
-    const { itemName, itemAmount, payerName, itemDetails, onEdit } = props;
+    const { itemName, itemAmount, payerName, splitEqually, itemDetails, onEdit } = props;
     const [formData, setFormData] = React.useState({
         editedItemName: itemName,
         editedItemAmount: itemAmount,
         editedPayerName: payerName,
+        editedSplitEqually: splitEqually,
         editedItemDetails: itemDetails,
     });
 
     const peopleNameList = formData.editedItemDetails.map((item) => item.payer);
-
     const handleInputChange = (fieldName, value) => {
         setFormData({
             ...formData,
@@ -83,6 +83,7 @@ function EditItemModal(props) {
             itemName: formData.editedItemName,
             itemAmount: formData.editedItemAmount,
             payerName: formData.editedPayerName,
+            splitEqually: formData.editedSplitEqually,
             itemDetails: formData.editedItemDetails,
         });
     };
@@ -93,11 +94,11 @@ function EditItemModal(props) {
 
     const [payerList, setPayerList] = React.useState(peopleNameList[0]);
     const [peopleList, setPeopleList] = React.useState(peopleNameList[0]);
-    const [equallySelected, setEquallySelected] = React.useState(false);
+    const [equallySelected, setEquallySelected] = React.useState(formData.editedSplitEqually);
     const [splitedValue, setSplitedValue] = React.useState('');
 
     return (
-        <div>
+        <>
             <FaPen color="#7CBBAE"
                 fontSize="medium"
                 onClick={handleOpenModal} />
@@ -145,6 +146,9 @@ function EditItemModal(props) {
                                                 aria-checked={item === payerList ? 'true' : 'false'}
                                                 onClick={() => {
                                                     setPayerList(item);
+                                                    setFormData({
+                                                        ...formData, editedPayerName: item,
+                                                    })
                                                 }}
                                             >
                                                 {item}
@@ -155,11 +159,15 @@ function EditItemModal(props) {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>請選擇分母</FormLabel>
-                                <Typography component="label" endDecorator={<Switch sx={{ ml: 1 }} defaultChecked onChange={() => setEquallySelected(!equallySelected)} />}>
+                                <Typography component="label" endDecorator={<Switch sx={{ ml: 1 }} checked={equallySelected}
+                                    onChange={() => {
+                                        setEquallySelected(!equallySelected);
+                                        setFormData({ ...formData, editedSplitEqually: !equallySelected });
+                                    }} />}>
                                     均攤
                                 </Typography>
                             </FormControl>
-                            {!equallySelected ? null : (
+                            {equallySelected ? null : (
                                 <FormControl>
                                     <Box
                                         sx={{
@@ -205,35 +213,37 @@ function EditItemModal(props) {
                                                         type="submit"
                                                         sx={{ borderTopLeftRadius: 2, borderBottomLeftRadius: 2, width: '10px' }}
                                                         onClick={() => {
-                                                            // edit the amount of the selected payer or add a new payer
-                                                            const index = formData.editedItemDetails.findIndex(
-                                                                (itemDetail) => itemDetail.payer === peopleList
-                                                            );
-                                                            if (index === -1) {
-                                                                setFormData({
-                                                                    ...formData,
-                                                                    editedItemDetails: [
-                                                                        ...formData.editedItemDetails,
-                                                                        {
-                                                                            payer: peopleList,
-                                                                            amount: splitedValue,
-                                                                        },
-                                                                    ],
-                                                                });
+                                                            // Check if the payer already exists in itemDetails
+                                                            const existingPayerIndex = formData.editedItemDetails.findIndex(item => item.payer === formData.editedPayerName);
+                                                            // Create a new itemDetail with the updated amount
+                                                            const newItemDetail = {
+                                                                payer: formData.editedPayerName,
+                                                                amount: parseFloat(splitedValue) || 0, // Parse the value as a float, default to 0 if not a valid number
+                                                            };
+
+                                                            // Update itemDetails based on whether the payer already exists
+                                                            const updatedItemDetails = [...formData.editedItemDetails];
+                                                            if (existingPayerIndex !== -1) {
+                                                                // Update the existing payer's amount
+                                                                updatedItemDetails[existingPayerIndex] = newItemDetail;
                                                             } else {
-                                                                const newDetails = formData.editedItemDetails;
-                                                                newDetails[index].amount = splitedValue;
-                                                                setFormData({
-                                                                    ...formData,
-                                                                    editedItemDetails: newDetails,
-                                                                });
+                                                                // Add the new payer to itemDetails
+                                                                updatedItemDetails.push(newItemDetail);
                                                             }
+                                                            // Update the state with the new itemDetails
+                                                            setFormData({
+                                                                ...formData,
+                                                                editedItemDetails: updatedItemDetails,
+                                                            });
+                                                            // Reset the splitedValue
+                                                            setSplitedValue('');
+                                                            // You may want to perform additional validation or handle other states/logic as needed
                                                         }}
                                                     >
-                                                        V
+                                                        +
                                                     </Button>
                                                 }
-                                                autoFocus required />
+                                                autoFocus />
                                         </Item>
                                     </Box>
                                     <Stack spacing={0.5} marginTop={1} marginLeft={2}>
@@ -254,7 +264,7 @@ function EditItemModal(props) {
                     </form>
                 </ModalDialog>
             </Modal>
-        </div>
+        </>
     );
 }
 export default EditItemModal;

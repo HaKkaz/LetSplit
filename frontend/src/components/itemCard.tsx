@@ -22,6 +22,7 @@ function ItemCard() {
         itemName: "臭豆腐",
         itemAmount: 300,
         payerName: "皮皮小雞",
+        splitEqually: false,
         // 應該是所有人都要在這裡面，如果>0，才顯示
         itemDetails: [
             { payer: '小豬', amount: 50 },
@@ -63,6 +64,7 @@ function ItemCard() {
                         itemName={itemData.itemName}
                         itemAmount={itemData.itemAmount}
                         payerName={itemData.payerName}
+                        splitEqually={itemData.splitEqually}
                         itemDetails={itemData.itemDetails}
                         onEdit={handleEditData}
                     />
@@ -79,15 +81,19 @@ function ItemCard() {
                     </ListItemContent>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Stack spacing={1.5} marginTop={2}>
-                        {itemData.itemDetails
-                            .filter(itemDetail => itemDetail.amount !== 0)
-                            .map((itemDetail, index) => (
-                                <FormControl key={index}>
-                                    <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
-                                </FormControl>
-                            ))}
-                    </Stack>
+                    {itemData.splitEqually ?
+                        <Typography marginLeft={-18} marginTop={1}>均攤</Typography>
+                        : (
+                            <Stack spacing={1.5} marginTop={2}>
+                                {itemData.itemDetails
+                                    .filter(itemDetail => itemDetail.amount !== 0)
+                                    .map((itemDetail, index) => (
+                                        <FormControl key={index}>
+                                            <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
+                                        </FormControl>
+                                    ))}
+                            </Stack>
+                        )}
                 </AccordionDetails>
             </Accordion>
 
