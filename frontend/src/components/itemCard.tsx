@@ -23,65 +23,68 @@ function ItemCard({ itemData, onEditData }) {
         onEditData(editedData);
     };
     return (
-        <Card
-            variant="outlined"
-            sx={{
-                maxHeight: 'max-content',
-                maxWidth: '100%',
-                mx: 'auto',
-                overflow: 'auto',
-                resize: 'horizontal',
-                marginTop: -15,
-            }}
-        >
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                <Box sx={{ flexGrow: 1, marginTop: 1 }}>
-                    <Typography level="title-lg" sx={{ marginTop: 1, marginLeft: 1 }} gutterBottom component="div">
-                        {itemData.itemName}
-                    </Typography>
-                </Box>
-                <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 3 }}>
-                    <DeleteItemModal />
-                </Box>
-                <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8, marginRight: 1 }}>
-                    <EditItemModal
-                        itemName={itemData.itemName}
-                        itemAmount={itemData.itemAmount}
-                        payerName={itemData.payerName}
-                        splitEqually={itemData.splitEqually}
-                        itemDetails={itemData.itemDetails}
-                        onEdit={handleEdit}
-                    />
-                </Box>
-            </Grid>
-            <Typography level="body-sm" sx={{ marginLeft: -8 }}>
-                {formattedDateTime}
-            </Typography>
-            <Divider inset="none" />
-            <Accordion>
-                <AccordionSummary>
-                    <ListItemContent>
-                        <Typography level="title-md">{itemData.payerName}支付 {itemData.itemAmount} 元</Typography>
-                    </ListItemContent>
-                </AccordionSummary>
-                <AccordionDetails>
-                    {itemData.splitEqually ?
-                        <Typography marginLeft={-18} marginTop={1}>均攤</Typography>
-                        : (
-                            <Stack spacing={1.5} marginTop={2}>
-                                {itemData.itemDetails
-                                    .filter(itemDetail => itemDetail.amount !== 0)
-                                    .map((itemDetail, index) => (
-                                        <FormControl key={index}>
-                                            <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
-                                        </FormControl>
-                                    ))}
-                            </Stack>
-                        )}
-                </AccordionDetails>
-            </Accordion>
+        <>
+            <Card
+                variant="outlined"
+                sx={{
+                    maxHeight: 'max-content',
+                    maxWidth: '100%',
+                    mx: 'auto',
+                    overflow: 'auto',
+                    resize: 'horizontal',
+                    position: 'relative',
+                    marginTop: 2,
+                }}
+            >
+                <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                    <Box sx={{ flexGrow: 1, marginTop: 1 }}>
+                        <Typography level="title-lg" sx={{ marginTop: 1, marginLeft: 1 }} gutterBottom component="div">
+                            {itemData.itemName}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 3 }}>
+                        <DeleteItemModal />
+                    </Box>
+                    <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8, marginRight: 1 }}>
+                        <EditItemModal
+                            itemName={itemData.itemName}
+                            itemAmount={itemData.itemAmount}
+                            payerName={itemData.payerName}
+                            splitEqually={itemData.splitEqually}
+                            itemDetails={itemData.itemDetails}
+                            onEdit={handleEdit}
+                        />
+                    </Box>
+                </Grid>
+                <Typography level="body-sm" sx={{ marginLeft: -8 }}>
+                    {formattedDateTime}
+                </Typography>
+                <Divider inset="none" />
+                <Accordion>
+                    <AccordionSummary>
+                        <ListItemContent>
+                            <Typography level="title-md">{itemData.payerName}支付 {itemData.itemAmount} 元</Typography>
+                        </ListItemContent>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {itemData.splitEqually ?
+                            <Typography marginLeft={-18} marginTop={1}>均攤</Typography>
+                            : (
+                                <Stack spacing={1.5} marginTop={2}>
+                                    {itemData.itemDetails
+                                        .filter(itemDetail => itemDetail.amount !== 0)
+                                        .map((itemDetail, index) => (
+                                            <FormControl key={index}>
+                                                <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
+                                            </FormControl>
+                                        ))}
+                                </Stack>
+                            )}
+                    </AccordionDetails>
+                </Accordion>
 
-        </Card>
+            </Card>
+        </>
     )
 }
 export default ItemCard;
