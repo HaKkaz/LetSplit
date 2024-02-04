@@ -8,8 +8,12 @@ import Button from '@mui/joy/Button';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import Divider from '@mui/joy/Divider';
 import { MdDelete } from "react-icons/md";
-function DeleteItemModal() {
+function DeleteItemModal({ onDelete }) {
     const [open, setOpen] = React.useState<boolean>(false);
+    const handleDelete = () => {
+        onDelete();
+        setOpen(false);
+    }
     return (
         <div>
             <MdDelete color="#7CBBAE"
@@ -27,7 +31,7 @@ function DeleteItemModal() {
                         確定刪除此項目?
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="solid" color="danger" onClick={() => setOpen(false)}>
+                        <Button variant="solid" color="danger" onClick={handleDelete}>
                             確定刪除
                         </Button>
                         <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>

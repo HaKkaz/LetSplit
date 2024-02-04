@@ -15,7 +15,7 @@ import Box from '@mui/joy/Box';
 import DeleteItemModal from './ui/deleteItemModal.tsx';
 
 
-function ItemCard({ itemData, onEditData }) {
+function ItemCard({ itemData, onEditData, onDelete }) {
     const creationDateTime = new Date(); // Get the current date and time
     const formattedDateTime = `${creationDateTime.getFullYear()}.${String(creationDateTime.getMonth() + 1).padStart(2, '0')}.${String(creationDateTime.getDate()).padStart(2, '0')} ${String(creationDateTime.getHours()).padStart(2, '0')}:${String(creationDateTime.getMinutes()).padStart(2, '0')}`;
     const handleEdit = (editedData) => {
@@ -43,7 +43,7 @@ function ItemCard({ itemData, onEditData }) {
                         </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 3 }}>
-                        <DeleteItemModal />
+                        <DeleteItemModal onDelete={onDelete} />
                     </Box>
                     <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8, marginRight: 1 }}>
                         <EditItemModal
@@ -82,7 +82,6 @@ function ItemCard({ itemData, onEditData }) {
                             )}
                     </AccordionDetails>
                 </Accordion>
-
             </Card>
         </>
     )

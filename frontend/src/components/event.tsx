@@ -7,8 +7,10 @@ import ItemCard from './itemCard.tsx';
 import AddPeopleModal from './ui/addPeopleModal.tsx';
 import AddItemModal from './ui/addItemModal.tsx';
 import PieChartView from './ui/pieChartView.tsx';
+import { set } from 'react-hook-form';
 
 function Event() {
+    const eventName = "嘿嘿";
     const [itemData, setItemData] = React.useState([
         {
             itemName: "臭豆腐",
@@ -46,9 +48,14 @@ function Event() {
             return updatedItemData;
         });
     };
+    const handleDelete = () => {
+        // Perform the delete and update the data
+        console.log("delete");
+
+    }
     return (
         <div style={{ position: 'relative' }}>
-            <h1 style={{ position: 'fixed', top: 40, left: 0, width: '100%', background: 'white' }}>這是標題</h1>
+            <h1 style={{ position: 'fixed', top: 40, left: 0, width: '100%', background: 'white' }}>{eventName}</h1>
             <Tabs defaultValue={0} >
                 <TabList style={{ position: 'fixed', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white' }}>
                     <Tab> 收支明細 </Tab>
@@ -58,7 +65,7 @@ function Event() {
                     <AddPeopleModal />
                     <AddItemModal />
                     {itemData.map((item, index) => (
-                        <ItemCard key={index} itemData={item} onEditData={(editedData) => handleEditData(editedData, index)} />
+                        <ItemCard key={index} itemData={item} onEditData={(editedData) => handleEditData(editedData, index)} onDelete={handleDelete} />
                     ))}
                 </TabPanel>
                 <TabPanel value={1}>
