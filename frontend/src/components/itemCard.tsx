@@ -15,28 +15,13 @@ import Box from '@mui/joy/Box';
 import DeleteItemModal from './ui/deleteItemModal.tsx';
 
 
-function ItemCard() {
+function ItemCard({ itemData, onEditData }) {
     const creationDateTime = new Date(); // Get the current date and time
     const formattedDateTime = `${creationDateTime.getFullYear()}.${String(creationDateTime.getMonth() + 1).padStart(2, '0')}.${String(creationDateTime.getDate()).padStart(2, '0')} ${String(creationDateTime.getHours()).padStart(2, '0')}:${String(creationDateTime.getMinutes()).padStart(2, '0')}`;
-    const [itemData, setItemData] = React.useState({
-        itemName: "臭豆腐",
-        itemAmount: 300,
-        payerName: "皮皮小雞",
-        splitEqually: false,
-        // 應該是所有人都要在這裡面，如果>0，才顯示
-        itemDetails: [
-            { payer: '小豬', amount: 50 },
-            { payer: '吼吼龍', amount: 50 },
-            { payer: '綿悠悠', amount: 100 },
-            { payer: '皮皮小雞', amount: 100 },
-            { payer: '小熊', amount: 0 },
-        ],
-    });
-
-    const handleEditData = (editedData) => {
-        setItemData(editedData);
+    const handleEdit = (editedData) => {
+        // Perform the edit and call onEditData to update the data in Event
+        onEditData(editedData);
     };
-
     return (
         <Card
             variant="outlined"
@@ -44,7 +29,6 @@ function ItemCard() {
                 maxHeight: 'max-content',
                 maxWidth: '100%',
                 mx: 'auto',
-                // to make the demo resizable
                 overflow: 'auto',
                 resize: 'horizontal',
                 marginTop: -15,
@@ -66,7 +50,7 @@ function ItemCard() {
                         payerName={itemData.payerName}
                         splitEqually={itemData.splitEqually}
                         itemDetails={itemData.itemDetails}
-                        onEdit={handleEditData}
+                        onEdit={handleEdit}
                     />
                 </Box>
             </Grid>

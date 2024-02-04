@@ -9,6 +9,24 @@ import AddItemModal from './ui/addItemModal.tsx';
 import PieChartView from './ui/pieChartView.tsx';
 
 function Event() {
+    const [itemData, setItemData] = React.useState({
+        itemName: "臭豆腐",
+        itemAmount: 300,
+        payerName: "皮皮小雞",
+        splitEqually: false,
+        // 應該是所有人都要在這裡面，如果>0，才顯示
+        itemDetails: [
+            { payer: '小豬', amount: 50 },
+            { payer: '吼吼龍', amount: 50 },
+            { payer: '綿悠悠', amount: 100 },
+            { payer: '皮皮小雞', amount: 100 },
+            { payer: '小熊', amount: 0 },
+        ],
+    });
+
+    const handleEditData = (editedData) => {
+        setItemData(editedData);
+    };
     return (
         <div style={{ position: 'relative' }}>
             <h1 style={{ position: 'fixed', top: 40, left: 0, width: '100%', background: 'white' }}>這是標題</h1>
@@ -20,7 +38,7 @@ function Event() {
                 <TabPanel value={0}>
                     <AddPeopleModal />
                     <AddItemModal />
-                    <ItemCard />
+                    <ItemCard itemData={itemData} onEditData={handleEditData} />
                 </TabPanel>
                 <TabPanel value={1}>
                     每個人付了多少錢
