@@ -5,5 +5,4 @@ An intuitive web app tailored for mobile users, simplifying travel expense shari
 
 🚀 [Visit Website](https://letsplit.vercel.app/ )
 
-![alt text](image-3.png)
-![alt text](image-2.png)
+![alt text](image-4.png)
