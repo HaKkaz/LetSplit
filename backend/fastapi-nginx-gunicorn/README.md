@@ -1,4 +1,8 @@
-1. Put `letsplit-api-service.conf` in `/etc/supervisor/conf.d/`
+# API service deployment
+## install requirements
+```
+$ pip install -r requirements.txt
+```
 
 ## Configure Supervisor
 Create supervisor config file:
