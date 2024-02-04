@@ -10,7 +10,7 @@ import PieChartView from './ui/pieChartView.tsx';
 import { set } from 'react-hook-form';
 
 function Event() {
-    const eventName = "嘿嘿";
+    const eventName = "墾丁好好玩";
     const [itemData, setItemData] = React.useState([
         {
             itemName: "臭豆腐",
