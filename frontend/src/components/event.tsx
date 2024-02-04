@@ -39,8 +39,12 @@ function Event() {
         }]);
 
 
-    const handleEditData = (editedData) => {
-        setItemData(editedData);
+    const handleEditData = (editedData, index) => {
+        setItemData(prevItemData => {
+            const updatedItemData = [...prevItemData];
+            updatedItemData[index] = editedData;
+            return updatedItemData;
+        });
     };
     return (
         <div style={{ position: 'relative' }}>
@@ -54,7 +58,7 @@ function Event() {
                     <AddPeopleModal />
                     <AddItemModal />
                     {itemData.map((item, index) => (
-                        <ItemCard key={index} itemData={item} onEditData={handleEditData} />
+                        <ItemCard key={index} itemData={item} onEditData={(editedData) => handleEditData(editedData, index)} />
                     ))}
                 </TabPanel>
                 <TabPanel value={1}>
