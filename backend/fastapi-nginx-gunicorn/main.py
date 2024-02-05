@@ -45,7 +45,6 @@ def get_event(event_id: str) -> dict:
     """
     Get an event by event id.
     """
-    print(f'event_id = {event_id}')
 
     collection: Collection = db["user_data"]
 
@@ -70,7 +69,8 @@ def delete_event(event_id: str) -> dict:
     document = collection.find_one({'_id': document_id})
 
     if document:
-        return collection.delete_one(document) 
+        collection.delete_one(document) 
+        return {"details": "document deleted."}
 
     return {"details": "document not found."}                         
 
@@ -98,6 +98,8 @@ def create_item(event_id: str, item: Item) -> dict:
 
     document_id = ObjectId(event_id)
     document = collection.find_one({'_id': document_id})
+    oid = ObjectId()
+    item.id = str(oid)
 
     if document:
         collection.update_one(

@@ -1,8 +1,11 @@
 from pydantic import BaseModel
 from utils import getDatetime
 from datetime import datetime
+from bson.objectid import ObjectId
+from bson import ObjectId
 
 class Item(BaseModel):
+    id: str = None
     datetime: str = getDatetime()
     item_name: str
     payer: str
