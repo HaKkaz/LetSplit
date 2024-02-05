@@ -55,8 +55,60 @@ def get_event(event_id: str) -> dict:
     if document:
         # Convert ObjectId to its string representation
         document['_id'] = str(document['_id'])
-        
-    return document
+
+    return {"details": "document not found."}
+
+@app.delete("/api/user_data/event/{event_id}")
+def delete_event(event_id: str) -> dict:
+    """
+    Delete an event by event id.
+    """
+    collection: Collection = db["user_data"]
+
+    document_id = ObjectId(event_id)
+    document = collection.find_one({'_id': document_id})
+
+    if document:
+        return collection.delete_one(document) 
+
+    return {"details": "document not found."}                         
+
+@app.get("/api/user_data/item_list/{event_id}")
+def get_itemlist(event_id: str) -> dict:
+    """
+    Get all items.
+    """
+    collection: Collection = db["user_data"]
+
+    document_id = ObjectId(event_id)
+    document = collection.find_one({'_id': document_id})
+
+    if document:
+        return {"itemList": document['itemList']}
+
+    return {"details": "document not found."}
+
+@app.post("/api/user_data/item/{event_id}")
+def create_item(event_id: str, item: Item) -> dict:
+    """
+    Create a new item.
+    """
+    collection: Collection = db["user_data"]
+
+    document_id = ObjectId(event_id)
+    document = collection.find_one({'_id': document_id})
+    
+    print(dict(item.model_dump()))
+
+    if document:
+        result = collection.update_one(
+            document,
+            {'$push': {'item_list': item.model_dump()}}
+        )
+        return {"details" : "item created."}
+    
+    return {"details": "document not found."}
+
 
 if __name__ == "__main__":
     app.add_api_route("/api/user_data", create_event, methods=["POST"])
