@@ -13,7 +13,7 @@ import FormLabel from '@mui/joy/FormLabel';
 import EditItemModal from './ui/editItemModal.tsx';
 import Box from '@mui/joy/Box';
 import DeleteItemModal from './ui/deleteItemModal.tsx';
-
+import { Item } from './interfaces/Item.ts';
 
 function ItemCard({ itemData, onEditData, onDelete }) {
     const creationDateTime = new Date(); // Get the current date and time
@@ -22,6 +22,8 @@ function ItemCard({ itemData, onEditData, onDelete }) {
         // Perform the edit and call onEditData to update the data in Event
         onEditData(editedData);
     };
+    const item: Item = itemData;
+
     return (
         <>
             <Card
@@ -39,7 +41,7 @@ function ItemCard({ itemData, onEditData, onDelete }) {
                 <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                     <Box sx={{ flexGrow: 1, marginTop: 1 }}>
                         <Typography level="title-lg" sx={{ marginTop: 1, marginLeft: 1 }} gutterBottom component="div">
-                            {itemData.itemName}
+                            {item.item_name}
                         </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 3 }}>
@@ -47,11 +49,11 @@ function ItemCard({ itemData, onEditData, onDelete }) {
                     </Box>
                     <Box sx={{ flexGrow: 1, marginTop: 2, marginLeft: 8, marginRight: 1 }}>
                         <EditItemModal
-                            itemName={itemData.itemName}
-                            itemAmount={itemData.itemAmount}
-                            payerName={itemData.payerName}
-                            splitEqually={itemData.splitEqually}
-                            itemDetails={itemData.itemDetails}
+                            itemName={item.item_name}
+                            // itemAmount={itemData.item}
+                            payerName={item.payer}
+                            splitEqually={item.splitEqually}
+                            itemDetails={item.split}
                             onEdit={handleEdit}
                         />
                     </Box>
@@ -63,19 +65,19 @@ function ItemCard({ itemData, onEditData, onDelete }) {
                 <Accordion>
                     <AccordionSummary>
                         <ListItemContent>
-                            <Typography level="title-md">{itemData.payerName}支付 {itemData.itemAmount} 元</Typography>
+                            <Typography level="title-md">{item.payer}支付 {item.amount} 元</Typography>
                         </ListItemContent>
                     </AccordionSummary>
                     <AccordionDetails>
-                        {itemData.splitEqually ?
+                        {item.splitEqually ?
                             <Typography marginLeft={-18} marginTop={1}>均攤</Typography>
                             : (
                                 <Stack spacing={1.5} marginTop={2}>
-                                    {itemData.itemDetails
-                                        .filter(itemDetail => itemDetail.amount !== 0)
-                                        .map((itemDetail, index) => (
+                                    {item.split
+                                        .filter(split => split.amount !== 0)
+                                        .map((split, index) => (
                                             <FormControl key={index}>
-                                                <FormLabel>{itemDetail.payer} {itemDetail.amount} 元</FormLabel>
+                                                <FormLabel>{split.username} {split.amount} 元</FormLabel>
                                             </FormControl>
                                         ))}
                                 </Stack>
