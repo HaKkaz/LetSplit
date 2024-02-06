@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from pymongo.collection import Collection
 from bson import ObjectId
@@ -20,8 +21,16 @@ def get_database():
     # Create the database for our example (we will use the same database throughout the tutorial
     return client['main_data']
 
-app = FastAPI()
 db = get_database()
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.post("/api/user_data/event")
@@ -37,6 +46,7 @@ def create_event(event: Event) -> dict:
 
     event_id: str = str(collection.insert_one(event.to_dict()).inserted_id)
     return {
+        "details": "event created.",
         "event_id": event_id
     }
 
