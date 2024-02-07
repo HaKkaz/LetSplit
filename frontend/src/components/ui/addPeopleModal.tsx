@@ -17,8 +17,9 @@ function AddPeopleModal() {
     }
     return (
         <>
-
-            <button onClick={handleOpenModal} style={{ position: 'fixed', top: '25%', left: '52%', width: '20%', background: 'white' }}>新增成員</button>
+            <CssVarsProvider theme={theme}>
+                <Button onClick={handleOpenModal} variant="outlined" color="secondary" >新增成員</Button>
+            </CssVarsProvider>
             <Modal
                 open={openModal}
                 onClose={handleOpenModal}

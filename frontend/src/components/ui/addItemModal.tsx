@@ -70,7 +70,10 @@ function AddItemModal() {
     const [splitedValue, setSplitedValue] = React.useState('');
     return (
         <>
-            <button onClick={handleOpenModal} style={{ position: 'fixed', top: '25%', right: '52%', width: '20%', background: 'white' }}>新增項目</button>
+            <CssVarsProvider theme={theme}>
+                <Button onClick={handleOpenModal} variant="outlined" color="secondary" >新增項目</Button>
+            </CssVarsProvider>
+            
             <Modal
                 open={openModal}
                 onClose={handleOpenModal}

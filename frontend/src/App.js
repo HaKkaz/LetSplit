@@ -5,7 +5,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Event from './components/event.tsx';
+import EventPage from './components/event.tsx';
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/event" element={<Event />} />
+            <Route path="/event/:event_id" element={<EventPage />} />
           </Routes>
 
           {/* <a
