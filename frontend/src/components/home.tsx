@@ -7,22 +7,17 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import theme from './../Theme.ts';
 import { useNavigate } from 'react-router-dom';
 import useCreateEvent  from '../hooks/createEvent.tsx';
-
-// import { Int32 } from 'mongodb';
-
-interface Person {
-    username: string;
-    color: string;
-}
-
+import { User } from './interfaces/User.ts';
 
 function Home() {
     const [eventName, setEventName] = React.useState('');
     const [peopleName, setPeopleName] = React.useState('');
-    const [peopleNameList, setPeopleNameList] = React.useState<Person[]>([]);
+    const [peopleNameList, setPeopleNameList] = React.useState<User[]>([]);
 
-    const handleDeletePerson = (index: number) => {
-        // Remove the person from the list based on the index
+    const navigate = useNavigate();
+
+    const handleDeleteUser = (index: number) => {
+        // Remove the user from the list based on the index
         setPeopleNameList((prevList) => [...prevList.slice(0, index), ...prevList.slice(index + 1)]);
     };
 
@@ -33,7 +28,7 @@ function Home() {
 
     const HandleCreateEventClick = () => {
         // Call the useCreateEvent hook with the necessary parameters
-        useCreateEvent(eventName, peopleNameList);
+        useCreateEvent(eventName, peopleNameList , navigate);
     };
 
 
@@ -97,7 +92,7 @@ function Home() {
                         }}
                     ></div>
                     <span>{person.username}</span>
-                    <CancelIcon onClick={() => handleDeletePerson(index)} />
+                    <CancelIcon onClick={() => handleDeleteUser(index)} />
                 </div>
             ))}
             <br />

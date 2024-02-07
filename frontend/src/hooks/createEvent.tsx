@@ -1,4 +1,6 @@
-function useCreateEvent(eventName, peopleNameList, navigate) {
+import { NavigateFunction } from 'react-router-dom';
+import { User } from '../components/interfaces/User'
+function useCreateEvent(eventName: string, peopleNameList: User[], navigate: NavigateFunction) {
     const handleCreateEvent = async () => {
         if (eventName.trim() === '') {
             alert('請輸入帳本名稱！');
@@ -36,8 +38,6 @@ function useCreateEvent(eventName, peopleNameList, navigate) {
 
             // 将页面重定向到 /event/{event_id}
             navigate(`/event/${eventId}`);
-
-            alert(`${eventId}`)
         } catch (error) {
             console.error('Error creating event:', error.message);
         }
