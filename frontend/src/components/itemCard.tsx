@@ -32,10 +32,10 @@ function ItemCard({ itemData, onEditData, onDelete }) {
                     maxHeight: 'max-content',
                     maxWidth: '100%',
                     mx: 'auto',
-                    overflow: 'auto',
                     resize: 'horizontal',
                     position: 'relative',
                     marginTop: 2,
+                    overflowBlock: 'scroll',
                 }}
             >
                 <Grid container spacing={2} sx={{ flexGrow: 1 }}>

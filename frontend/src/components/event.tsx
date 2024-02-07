@@ -1,7 +1,7 @@
 import React from 'react';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
-import Tab from '@mui/joy/Tab';
+import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import ItemCard from './itemCard.tsx';
 import AddPeopleModal from './ui/addPeopleModal.tsx';
@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Event } from './interfaces/Event.ts'
 import { Item } from './interfaces/Item.ts';
+import { Box } from '@mui/system';
 
 function EventPage() {
     const { event_id } = useParams();
@@ -28,7 +29,7 @@ function EventPage() {
           });
       }, [event_id]);
 
-    const handleEditData = (editedData, index) => {
+    const handleEditData = (editedItem: Item, index: number) => {
         console.log("edit");
     };
 
@@ -38,18 +39,35 @@ function EventPage() {
     }
 
     return (
-        <div style={{ position: 'relative' }}>
-            <h1 style={{ position: 'fixed', top: 40, left: 0, width: '100%', background: 'white' }}>{event?.event_name}</h1>
-            <Tabs defaultValue={0} >
-                <TabList style={{ position: 'fixed', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white' }}>
-                    <Tab> 收支明細 </Tab>
-                    <Tab> 結算總覽 </Tab>
+        <Box sx={{ position: 'fixed'}}>
+            {/* <div id="white_block" style={{ position: 'relative', height: '20%', width: '100%', background: 'white', zIndex: 3 }} > */}
+            <h1 style={{ position: 'fixed', top: '2%', left: 0, width: '100%', background: 'white', zIndex: 4  }}>{event?.event_name}</h1>
+                
+            <Tabs defaultValue={0} style={{ position: 'fixed', top: '15%', left: '15%', right: '15%', bottom: '5%', background: 'white' }}>
+                <TabList 
+                    disableUnderline
+                    tabFlex={1}
+                    sx={{
+                        [`& .${tabClasses.root}`]: {
+                            fontSize: 'sm',
+                            fontWeight: 'lg',
+                            [`&[aria-selected="true"]`]: {
+                                color: 'primary.500',
+                                bgcolor: 'background.surface',
+                            },
+                            [`&.${tabClasses.focusVisible}`]: {
+                                outlineOffset: '-4px',
+                            },
+                        },
+                    }}>
+                    <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}> 收支明細 </Tab>
+                    <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}> 結算總覽 </Tab>
                 </TabList>
-                <TabPanel value={0}>
-                    <AddPeopleModal />
+                <TabPanel value={0} style={{position: 'relative', marginTop: '0px',  zIndex: 1, overflowY: 'auto', maxHeight: 'calc(100vh - 48px)' }}>
                     <AddItemModal />
-                    {event && event?.item_list.map((item: Item, index) => (
-                        <ItemCard key={index} itemData={item} onEditData={(editedData) => handleEditData(editedData, index)} onDelete={handleDelete} />
+                    <AddPeopleModal />
+                    {event && event?.item_list.map((item: Item, index: number) => (
+                        <ItemCard key={index} itemData={item} onEditData={(editedItem: Item) => handleEditData(editedItem, index)} onDelete={handleDelete} />
                     ))}
                 </TabPanel>
                 <TabPanel value={1}>
@@ -57,7 +75,7 @@ function EventPage() {
                     <PieChartView />
                 </TabPanel>
             </Tabs>
-        </div>
+        </Box>
     );
 }
 
