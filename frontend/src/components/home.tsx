@@ -20,7 +20,6 @@ function Home() {
     const [eventName, setEventName] = React.useState('');
     const [peopleName, setPeopleName] = React.useState('');
     const [peopleNameList, setPeopleNameList] = React.useState<Person[]>([]);
-    const navigate = useNavigate();
 
     const handleDeletePerson = (index: number) => {
         // Remove the person from the list based on the index
@@ -34,7 +33,7 @@ function Home() {
 
     const HandleCreateEventClick = () => {
         // Call the useCreateEvent hook with the necessary parameters
-        useCreateEvent(eventName, peopleNameList, navigate);
+        useCreateEvent(eventName, peopleNameList);
     };
 
 
@@ -93,7 +92,7 @@ function Home() {
                             width: '10px',
                             height: '10px',
                             borderRadius: '50%',
-                            backgroundColor: getRandomColor(), // Set your desired color
+                            backgroundColor: person.color, // Set your desired color
                             marginRight: '8px',
                         }}
                     ></div>
