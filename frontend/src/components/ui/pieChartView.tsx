@@ -1,6 +1,5 @@
 import React from 'react';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import { AnchorPosition } from '@mui/x-charts/ChartsLegend/utils';
 
 type PieValueType = {
     value: number;
