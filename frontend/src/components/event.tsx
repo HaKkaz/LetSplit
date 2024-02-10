@@ -19,7 +19,7 @@ function EventPage() {
 
     useEffect(() => {
         // Fetch event data when component mounts
-        fetch(`http://35.187.157.35/api/user_data/event/${event_id}`)
+        fetch(`https://letsplit.hakkazz.website/api/user_data/event/${event_id}`)
           .then(response => response.json())
           .then(data => {
             setEvent(data);

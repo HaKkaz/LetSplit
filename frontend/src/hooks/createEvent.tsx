@@ -12,7 +12,7 @@ function useCreateEvent(eventName: string, peopleNameList: User[], navigate: Nav
 
         try {
             // 发送POST请求到后端，获取event_id
-            const response = await fetch('http://35.187.157.35/api/user_data/event', {
+            const response = await fetch('https://letsplit.hakkazz.website/api/user_data/event', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
