@@ -7,6 +7,7 @@ class Item(BaseModel):
     datetime: str = getDatetime()
     item_name: str
     payer: str
+    total: float
     split: list[dict]
     comment: str = None
 
