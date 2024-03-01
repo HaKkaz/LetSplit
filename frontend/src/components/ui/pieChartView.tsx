@@ -12,17 +12,17 @@ const data: PieValueType[] = [
     { value: 15, label: 'C' },
     { value: 20, label: 'E' },
 ];
-
+// in the middle of the page
 const size = {
     width: 400,
     height: 200,
-    margin: { top: 10, bottom: 10, left: 5, right: 5 },
+    margin: { top: 10, bottom: 10},
     // legend: { hidden: true },
 };
 
 function PieChartView() {
     return (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', textAlign: 'center' }}>
             <PieChart
                 series={[
                     {
